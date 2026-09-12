@@ -1,67 +1,60 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>NDGO :: Expert Web Developers</title>
-        <style>
-            body {
-                width: 100%;
-                height: 100vh;
-                margin: 0;
-                background-color: #000;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-            #logo {
-                width: 25rem;
-                height: 25rem;
-                background-color: #3f00ff;
-                background: radial-gradient(circle at 30% 20%,
-                    hsl(255,55%,65%) 0,
-                    hsl(255,55%,55%) 25%,
-                    hsl(255,60%,0%) 100%);
-                border-radius: 50%;
-                position: relative;
-                box-shadow: inset 0 0 2rem 0 hsla(255, 0%, 0%, 0.5),
-                    0 0.3rem 0.5rem 0 hsla(255, 0%, 0%, 0.1);
-                overflow: hidden;
-            }
-            #logo:before,
-            #logo:after {
-                content: "";
-                position: absolute;
-                width: 130%;
-                height: 130%;
-                box-shadow: inset 0 0 5rem 0 hsla(255, 55%, 80%, .5),
-                    0 1rem 2rem 0 hsla(255, 0%, 0%, .1);
-            }
-            #logo:before {
-                top: -85%;
-                left: -15%;
-                border-radius: 45%;
-                background: hsla(215, 55%, 75%, 0.1);
-                animation: w1 13s linear infinite;
-            }
-            #logo:after {
-                top: -88%;
-                left: -18%;
-                border-radius: 35%;
-                background: hsla(215, 55%, 75%, 0.2);
-                animation: w2 15s linear infinite;
-            }
-            @keyframes w1 {
-                100% {
-                    transform: rotateZ(360deg) rotateY(10deg);
-                }
-            }
-            @keyframes w2 {
-                100% {
-                    transform: rotateZ(-360deg) rotateY(10deg);
-                }
-            }
-        </style>
-    </head>
-    <body>
-        <div id="logo"></div>
-    </body>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <title>NDGO :: Expert Web Developers</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; height: 100%; background: #000; overflow: hidden; }
+    body { display: grid; place-items: center; min-height: 100vh; }
+    body::before, body::after {
+      content: ""; position: fixed; inset: -8%; pointer-events: none;
+      background: url("./assets/ether.webp") center top / max(100%, 1100px) 200% no-repeat;
+      will-change: transform, opacity;
+    }
+    body::before {
+      mask-image: linear-gradient(to right, #000 35%, transparent 67%);
+      animation: ether-drift 38s ease-in-out infinite alternate;
+    }
+    body::after {
+      background-position: center bottom;
+      mask-image: linear-gradient(to left, #000 35%, transparent 67%);
+      animation: ether-return 47s ease-in-out -19s infinite alternate;
+    }
+    @keyframes ether-drift {
+      from { transform: translate3d(-3%, 2%, 0); opacity: .8; }
+      to { transform: translate3d(4%, -2%, 0); opacity: 1; }
+    }
+    @keyframes ether-return {
+      from { transform: translate3d(4%, -1%, 0); opacity: .8; }
+      to { transform: translate3d(-3%, 3%, 0); opacity: 1; }
+    }
+    #orb { position: fixed; inset: 0; z-index: 1; }
+    #poster { position: absolute; left: 50%; top: 50%; width: 46.2vh; height: 46.2vh;
+      transform: translate(-50%, -50%); pointer-events: none;
+      mask-image: radial-gradient(circle closest-side, #000 71%, transparent 82%);
+      transition: opacity 180ms linear; }
+    canvas { display: block; position: relative; opacity: 0; transition: opacity 180ms linear; }
+    [data-ready="true"] canvas { opacity: 1; }
+    [data-ready="true"] #poster { opacity: 0; }
+    @media (prefers-reduced-motion: reduce) {
+      canvas, #poster { transition: none; }
+      body::before, body::after { animation: none; opacity: .8; will-change: auto; }
+    }
+    .message { position: fixed; inset: auto 24px 24px; text-align: center;
+      color: #85808f; font: 12px/1.7 system-ui, sans-serif; }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <main id="orb" aria-label="Animated glass orb">
+    <img id="poster" src="./assets/ndg0.webp" width="1152" height="1152" alt="" fetchpriority="high">
+  </main>
+  <div id="error" class="message" role="alert" hidden></div>
+  <noscript><div class="message">JavaScript is disabled.</div></noscript>
+  <script type="module" src="./assets/orb.js"></script>
+</body>
 </html>
